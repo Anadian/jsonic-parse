@@ -1,4 +1,5 @@
 #!/usr/local/bin/node
+'use strict';
 
 /**
 * @file jsonic-parse.js
@@ -40,11 +41,33 @@ if(require.main === module){
 	PROCESS_NAME = process.argv0;
 }
 
+var Logger = null;
+
+function Logger_Set( logger ){
+	var _return = [1,null];
+	const FUNCTION_NAME = 'Logger_Set';
+	//Variables
+	var function_return = [1,null];
+
+	//Parametre checks
+	if( logger == undefined || typeof(logger) !== 'object' ){
+		_return = [-2,'Error: parametre "logger" is either null or not an object.'];
+	}
+
+	//Function
+	if( _return[0] === 1 ){
+		Logger = logger;
+		_return = [0,null];
+	}
+
+	//Return
+	return _return;
+}
+
 //Functions
 /**
 * @fn JSONIC_Parse_FileData
 * @brief Parse JSONIC-format file_data.
-* @async true
 * @param file_data
 *	@type String
 *	@brief The filedata to be parsed.
@@ -58,7 +81,7 @@ if(require.main === module){
 *		@retval <object> on success
 *		@retval <error_message> on failure.
 */
-async function JSONIC_Parse_FileData( file_data ){
+function JSONIC_Parse_FileData( file_data ){
 	var _return = [1,null];
 	const FUNCTION_NAME = 'JSONIC_Parse_FileData';
 	//Variables
@@ -93,7 +116,6 @@ async function JSONIC_Parse_FileData( file_data ){
 /**
 * @fn JSONIC_Parse_FilePath
 * @brief Parse a JSONIC format file with the given path and return the parsed JSON object.
-* @async true
 * @param file_path
 *	@type String
 *	@brief The path to read for file data.
@@ -107,7 +129,7 @@ async function JSONIC_Parse_FileData( file_data ){
 *		@retval <object> on success
 *		@retval <error_message> on failure.
 */
-async function JSONIC_Parse_FilePath( file_path ){
+function JSONIC_Parse_FilePath( file_path ){
 	var _return = [1,null];
 	const FUNCTION_NAME = 'JSONIC_Parse_FilePath';
 	//Variables
@@ -146,6 +168,7 @@ async function JSONIC_Parse_FilePath( file_path ){
 if(require.main === module){
 	
 } else{
-	exports.parseFileData = JSONIC_Parse_FileData;
-	exports.parseFilePath = JSONIC_Parse_FilePath;
+	exports.SetLogger = Logger_Set;
+	exports.ParseFileData = JSONIC_Parse_FileData;
+	exports.ParseFilePath = JSONIC_Parse_FilePath;
 }
